@@ -1,0 +1,124 @@
+/* Define CSS variables for light and dark modes */
+:root {
+  --border-color-light: #ccc;
+  --border-color-dark: #444;
+  --background-color-light: rgba(100, 100, 100, 0.1);
+  --background-color-dark: rgba(0, 0, 0, 0.1);
+  --post-border-light: #ddd;
+  --post-border-dark: #555;
+  --post-background-light: #fff;
+  --post-background-dark: #333;
+  --shadow-light: rgba(150, 150, 150, 0.3);
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+  --text-color-light: rgba(0, 0, 0, 0.9);
+  --text-color-dark: rgba(255, 255, 255, 0.9);
+  --content-text-color-light: rgba(0, 0, 0, 0.8);
+  --content-text-color-dark: rgba(255, 255, 255, 0.8);
+  --datetime-text-color-light: rgba(0, 0, 0, 0.6);
+  --datetime-text-color-dark: rgba(255, 255, 255, 0.6);
+}
+
+/* Light mode styles */
+body {
+  background-color: #f0f0f0;
+  color: var(--text-color-light);
+}
+
+.results {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  gap: 15px;
+  border: 1px solid var(--border-color-light);
+  background-color: var(--background-color-light);
+  border-radius: 8px;
+  max-width: 100%; 
+  overflow-x: auto;
+}
+
+.post {
+  position: relative;
+  flex: 0 0 250px;
+  border: 1px solid var(--post-border-light);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--shadow-light);
+  height: 15em;
+  width: 12.5em;
+  background-color: var(--post-background-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(150, 150, 150, 0.5);
+}
+
+.username {
+  font-weight: bold;
+  margin: 3px;
+  color: var(--text-color-light);
+  font-size: 11px;
+}
+
+.content {
+  margin: 0 10px 30px;
+  font-size: 14px;
+  color: var(--content-text-color-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+}
+
+.datetime {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 12px;
+  color: var(--datetime-text-color-light);
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: var(--text-color-dark);
+  }
+
+  .results {
+    border: 1px solid var(--border-color-dark);
+    background-color: var(--background-color-dark);
+  }
+
+  .post {
+    border: 1px solid var(--post-border-dark);
+    box-shadow: 0 2px 8px var(--shadow-dark);
+    background-color: var(--post-background-dark);
+  }
+
+  .username {
+    color: var(--text-color-dark);
+  }
+
+  .content {
+    color: var(--content-text-color-dark);
+  }
+
+  .datetime {
+    color: var(--datetime-text-color-dark);
+  }
+}
+
+/* Remove underline from all links and nested elements */
+a {
+  text-decoration: none;
+}
+
+.content a {
+  color: lightblue;
+  text-decoration-line: underline;
+}

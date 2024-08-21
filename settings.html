@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fedi Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fedi Search</h1>
+    <form id="settingsForm">
+        <label for="domain">Mastodon Compatible Domain:</label>
+        <input type="text" id="domain" name="domain" placeholder="mastodon.social">
+
+        <label for="apiKey">API Token:</label>
+        <input type="password" id="apiKey" name="apiKey" placeholder="aabbcc112233">
+
+        <label for="numPosts">Number of posts to display:</label>
+        <input type="number" id="numPosts" name="numPosts" min="1" value="5" />
+        
+        <button type="submit">Save</button>
+    </form>
+    <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+	"manifest_version": 2,
+	"name": "DuckDuckSocial",
+	"version": "0.0.1",
+	"description": "Adds a scrollable list of posts from the social web that match your DuckDuckGo search. Requires API key from mastodon compatible server",
+	"icons": {
+		"512": "icons/border-512.png"
+	},
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://duckduckgo.com/*"],
+			"js": ["libs/purify.js", "content.js"],
+			"css": ["styles.css"]
+		}
+	],
+	"browser_action": {
+		"default_popup": "settings.html",
+		"default_icon": "icon.png"
+	},
+	"options_page": "settings.html",
+	"permissions": [
+		"webRequest",
+		"webRequestBlocking",
+		"storage"
+	],
+	"browser_specific_settings": {
+	  "gecko": {
+		"strict_min_version": "126.0"
+	  },
+	  "gecko_android": {
+		"strict_min_version": "126.0"
+	  }
+	}
+}
