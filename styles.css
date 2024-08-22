@@ -18,13 +18,7 @@
   --datetime-text-color-dark: rgba(255, 255, 255, 0.6);
 }
 
-/* Light mode styles */
-body {
-  background-color: #f0f0f0;
-  color: var(--text-color-light);
-}
-
-.results {
+.duckducksocial-results {
   display: flex;
   flex-direction: row;
   padding: 10px;
@@ -36,7 +30,7 @@ body {
   overflow-x: auto;
 }
 
-.post {
+.duckducksocial-post {
   position: relative;
   flex: 0 0 250px;
   border: 1px solid var(--post-border-light);
@@ -51,19 +45,19 @@ body {
   overflow: hidden;
 }
 
-.post:hover {
+.duckducksocial-post:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 12px rgba(150, 150, 150, 0.5);
 }
 
-.username {
+.duckducksocial-username {
   font-weight: bold;
   margin: 3px;
   color: var(--text-color-light);
   font-size: 11px;
 }
 
-.content {
+.duckducksocial-content {
   margin: 0 10px 30px;
   font-size: 14px;
   color: var(--content-text-color-light);
@@ -74,7 +68,7 @@ body {
   -webkit-line-clamp: 7;
 }
 
-.datetime {
+.duckducksocial-datetime {
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -84,37 +78,33 @@ body {
 
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
-  body {
-    background-color: #121212;
-    color: var(--text-color-dark);
-  }
 
-  .results {
+  .duckducksocial-results {
     border: 1px solid var(--border-color-dark);
     background-color: var(--background-color-dark);
   }
 
-  .post {
+  .duckducksocial-post {
     border: 1px solid var(--post-border-dark);
     box-shadow: 0 2px 8px var(--shadow-dark);
     background-color: var(--post-background-dark);
   }
 
-  .username {
+  .duckducksocial-username {
     color: var(--text-color-dark);
   }
 
-  .content {
+  .duckducksocial-content {
     color: var(--content-text-color-dark);
   }
 
-  .datetime {
+  .duckducksocial-datetime {
     color: var(--datetime-text-color-dark);
   }
 }
 
 /* Remove underline from all links and nested elements */
-a {
+.duckducksocial-results a {
   text-decoration: none;
 }
 

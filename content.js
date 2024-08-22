@@ -16,27 +16,27 @@ if (searchTerm) {
                         const results = response.results;
 
                         var div = document.createElement('div');
-                        div.className = 'results'; 
+                        div.className = 'duckducksocial-results'; 
 
                         results.slice(0, numPosts).forEach(function(post) {
                             var postDiv = document.createElement('div');
-                            postDiv.className = 'post'; 
+                            postDiv.className = 'duckducksocial-post'; 
 
                             var username = document.createElement('p');
                             username.textContent = `@${post.account.acct}`;
-                            username.className = 'username'; 
+                            username.className = 'duckducksocial-username'; 
 
 
 							var sanitizedContent = DOMPurify.sanitize(post.content);
                             var content = document.createElement('p');
 							content.innerHTML = post.content;
-							content.className = 'content';
+							content.className = 'duckducksocial-content';
 
 
                             // Datetime
                             var datetime = document.createElement('p');
                             datetime.textContent = new Date(post.created_at).toLocaleString();
-                            datetime.className = 'datetime'; 
+                            datetime.className = 'duckducksocial-datetime'; 
 
                             var postHref = document.createElement('a');
                             postHref.href = `https://${mastodonDomain}/@${post.account.acct}/${post.id}`;
