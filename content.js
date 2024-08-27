@@ -12,7 +12,9 @@ if (searchTerm) {
 
             browser.runtime.sendMessage({ action: 'searchMastodon', searchTerm: searchTerm })
                 .then(response => {
+					console.log(response);
                     if (response.success) {
+						console.log(response);
                         const results = response.results;
 
                         var div = document.createElement('div');

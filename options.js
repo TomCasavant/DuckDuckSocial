@@ -1,37 +1,65 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('settingsForm');
     const domainInput = document.getElementById('domain');
-    const apiKeyInput = document.getElementById('apiKey');
     const numPostsInput = document.getElementById('numPosts');
 
     // Load saved settings
     loadSettings();
 
-    // Handle form submission
+    // Handle form submission. TODO: This handles both buttons, I don't know if we want to save settings if we're just refreshing authorization
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         saveSettings();
     });
 
+    document.getElementById('connectMastodon').addEventListener('click', function() {
+        const domain = domainInput.value;
+		console.log(domain);
+
+        if (!domain) {
+            alert('Mastodon server domain is required!');
+            return;
+        }
+
+        // Send a message to background.js to handle OAuth process
+        browser.runtime.sendMessage({
+            action: 'authorize',
+            domain: domain
+        }).then(response => {
+            if (response.success) {
+                alert('Connected to Mastodon successfully!');
+            } else {
+                alert('Failed to connect to Mastodon: ' + response.error);
+            }
+        }).catch(error => {
+            console.error('Error during OAuth process:', error);
+            alert('Failed to connect to Mastodon. Please try again.');
+        });
+    });
+
     function saveSettings() {
         const domain = domainInput.value;
-        const apiKey = apiKeyInput.value;
         const numPosts = numPostsInput.value;
 
-        localStorage.setItem('domain', domain);
-        localStorage.setItem('apiKey', apiKey);
-        localStorage.setItem('numPosts', numPosts);
-
-        alert('Settings saved successfully!');
+        browser.storage.local.set({
+            domain: domain,
+            numPosts: numPosts
+        }).then(() => {
+            alert('Settings saved successfully!');
+        }).catch(error => {
+            console.error('Failed to save settings:', error);
+            alert('Failed to save settings.');
+        });
     }
 
     function loadSettings() {
-        const savedDomain = localStorage.getItem('domain');
-        const savedApiKey = localStorage.getItem('apiKey');
-        const savedNumPosts = localStorage.getItem('numPosts');
-
-        if (savedDomain) domainInput.value = savedDomain;
-        if (savedApiKey) apiKeyInput.value = savedApiKey;
-        if (savedNumPosts) numPostsInput.value = savedNumPosts;
+        browser.storage.local.get(['domain', 'numPosts'])
+            .then(({ domain, numPosts = 5 }) => {
+                if (domain) domainInput.value = domain;
+                if (numPosts) numPostsInput.value = numPosts;
+            })
+            .catch(error => {
+                console.error('Failed to load settings:', error);
+            });
     }
 });
