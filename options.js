@@ -2,38 +2,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('settingsForm');
     const domainInput = document.getElementById('domain');
     const numPostsInput = document.getElementById('numPosts');
+    const messageElement = document.querySelector('.message');
 
     // Load saved settings
     loadSettings();
 
-    // Handle form submission. TODO: This handles both buttons, I don't know if we want to save settings if we're just refreshing authorization
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         saveSettings();
     });
 
-    document.getElementById('connectMastodon').addEventListener('click', function() {
+    document.getElementById('connectMastodon').addEventListener('click', function(event) {
         const domain = domainInput.value;
-		console.log(domain);
 
         if (!domain) {
-            alert('Mastodon server domain is required!');
+            updateMessage('Mastodon server domain is required!');
             return;
         }
 
-        // Send a message to background.js to handle OAuth process
         browser.runtime.sendMessage({
             action: 'authorize',
             domain: domain
         }).then(response => {
             if (response.success) {
-                alert('Connected to Mastodon successfully!');
+                updateMessage('Connected to Mastodon successfully!');
             } else {
-                alert('Failed to connect to Mastodon: ' + response.error);
+                updateMessage('Failed to connect to Mastodon: ' + response.error);
             }
         }).catch(error => {
             console.error('Error during OAuth process:', error);
-            alert('Failed to connect to Mastodon. Please try again.');
+            updateMessage('Failed to connect to Mastodon. Please try again.');
         });
     });
 
@@ -45,10 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
             domain: domain,
             numPosts: numPosts
         }).then(() => {
-            alert('Settings saved successfully!');
+            updateMessage('Settings saved successfully!');
         }).catch(error => {
             console.error('Failed to save settings:', error);
-            alert('Failed to save settings.');
+            updateMessage('Failed to save settings.');
         });
     }
 
@@ -62,4 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Failed to load settings:', error);
             });
     }
+
+    function updateMessage(message) {
+        messageElement.textContent = message;
+        messageElement.style.color = 'red';
+	}
 });
