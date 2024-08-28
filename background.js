@@ -20,7 +20,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.statuses);
+                    console.log(data.statuses);  //TODO: For some reason this sendResponse does not work unless I log data.statuses. I have no idea why. Best guess is there's some sort of race condition going on? Though I'm not familiar enough with javascript to know if that's true
                     sendResponse({ success: true, results: data.statuses });
                 })
                 .catch(error => {
