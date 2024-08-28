@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Fedi Search</title>
+    <title>DuckDuckSocial</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,19 +20,18 @@
     </style>
 </head>
 <body>
-    <h1>Fedi Search</h1>
+    <h1>DuckDuckSocial</h1>
     <form id="settingsForm">
         <label for="domain">Mastodon Compatible Domain:</label>
         <input type="text" id="domain" name="domain" placeholder="mastodon.social">
 
-        <label for="apiKey">API Token:</label>
-        <input type="password" id="apiKey" name="apiKey" placeholder="aabbcc112233">
-
         <label for="numPosts">Number of posts to display:</label>
         <input type="number" id="numPosts" name="numPosts" min="1" value="5" />
         
-        <button type="submit">Save</button>
+        <button type="submit">Save Settings</button>
+        <button id="connectMastodon">Reconnect Mastodon</button>
     </form>
+	<p class="message"></p>
     <script src="options.js"></script>
 </body>
 </html>
