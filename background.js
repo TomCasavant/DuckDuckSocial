@@ -1,37 +1,39 @@
-// Message listener for various actions
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'searchMastodon') {
         // Load saved settings from browser.storage.local
-        browser.storage.local.get(['client_id', 'client_secret', 'access_token', 'domain', 'numPosts'])
-            .then(({ client_id, client_secret, access_token, domain, numPosts = 5 }) => {
-				console.log(access_token);
-				console.log(domain);
-                if (!access_token || !domain) {
-                    sendResponse({ success: false, error: 'Missing access token or domain.' });
+       browser.storage.local.get(['client_id', 'client_secret', 'access_token', 'apiKey', 'domain', 'numPosts'])
+            .then(({ client_id, client_secret, access_token, apiKey, domain, numPosts = 5 }) => {
+                if ((!access_token && !apiKey) || !domain) {
+                    sendResponse({ success: false, error: 'Missing access token, API key, or domain.' });
                     return;
                 }
 
                 const searchTerm = message.searchTerm;
+                const authorization = access_token ? `Bearer ${access_token}` : `Bearer ${apiKey}`;
+				
+				console.log(authorization);
+
                 fetch(`https://${domain}/api/v2/search?q=${encodeURIComponent(searchTerm)}&resolve=true&limit=${numPosts}`, {
                     headers: {
-                        'Authorization': `Bearer ${access_token}`
+                        'Authorization': authorization
                     }
                 })
                 .then(response => response.json())
                 .then(data => {
-					console.log(data.statuses); //TODO: For some reason this sendResponse does not work unless I log data.statuses. I have no idea why. Best guess is there's some sort of race condition going on? Though I'm not familiar enough with javascript to know if that's true
+                    console.log(data.statuses);  //TODO: For some reason this sendResponse does not work unless I log data.statuses. I have no idea why. Best guess is there's some sort of race condition going on? Though I'm not familiar enough with javascript to know if that's true
                     sendResponse({ success: true, results: data.statuses });
                 })
                 .catch(error => {
                     sendResponse({ success: false, error: error.message });
                 });
 
-                return true;
+                return true; 
             })
             .catch(error => {
                 sendResponse({ success: false, error: 'Failed to retrieve saved settings.' });
             });
-			return true;
+
+        return true; 
     } else if (message.action === 'getSettings') {
         browser.storage.local.get(['domain', 'numPosts'])
             .then(({ domain, numPosts = 5 }) => {
