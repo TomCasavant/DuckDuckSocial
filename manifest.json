@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "DuckDuckSocial",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Adds a scrollable list of posts from the social web that match your DuckDuckGo search. Requires API key from mastodon compatible server",
 	"icons": {
 		"512": "icons/border-512.png"
