@@ -17,6 +17,9 @@
             box-sizing: border-box;
             margin-bottom: 20px;
         }
+        .advanced-settings {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -27,11 +30,18 @@
 
         <label for="numPosts">Number of posts to display:</label>
         <input type="number" id="numPosts" name="numPosts" min="1" value="5" />
-        
+		
+
+        <div class="advanced-settings">
+            <label for="apiKey">API Key:</label>
+            <input type="password" id="apiKey" name="apiKey" placeholder="Enter your API key">
+        </div>
+		
         <button type="submit">Save Settings</button>
         <button id="connectMastodon">Reconnect Mastodon</button>
+		<button type="button" id="toggleAdvancedSettings" class="toggle-button">Show Advanced Settings</button>
     </form>
-	<p class="message"></p>
+    <p class="message"></p>
     <script src="options.js"></script>
 </body>
 </html>

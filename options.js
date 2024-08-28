@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('settingsForm');
     const domainInput = document.getElementById('domain');
     const numPostsInput = document.getElementById('numPosts');
+	const apiKeyInput = document.getElementById('apiKey');
     const messageElement = document.querySelector('.message');
+	const toggleButton = document.getElementById('toggleAdvancedSettings');
+	const advancedSettings = document.querySelector('.advanced-settings');
 
     // Load saved settings
     loadSettings();
@@ -10,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         saveSettings();
+    });
+	
+    toggleButton.addEventListener('click', function() {
+        const isVisible = advancedSettings.style.display === 'block';
+        advancedSettings.style.display = isVisible ? 'none' : 'block';
+        toggleButton.textContent = isVisible ? 'Show Advanced Settings' : 'Hide Advanced Settings';
     });
 
     document.getElementById('connectMastodon').addEventListener('click', function(event) {
@@ -38,10 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveSettings() {
         const domain = domainInput.value;
         const numPosts = numPostsInput.value;
+        const apiKey = apiKeyInput.value;
 
         browser.storage.local.set({
             domain: domain,
-            numPosts: numPosts
+            numPosts: numPosts,
+            apiKey: apiKey  // Save the API key as well
         }).then(() => {
             updateMessage('Settings saved successfully!');
         }).catch(error => {
@@ -49,12 +60,16 @@ document.addEventListener('DOMContentLoaded', function() {
             updateMessage('Failed to save settings.');
         });
     }
-
+	
     function loadSettings() {
-        browser.storage.local.get(['domain', 'numPosts'])
-            .then(({ domain, numPosts = 5 }) => {
+        browser.storage.local.get(['domain', 'numPosts', 'apiKey'])
+            .then(({ domain, numPosts = 5, apiKey }) => {
                 if (domain) domainInput.value = domain;
                 if (numPosts) numPostsInput.value = numPosts;
+                if (apiKey) {
+					apiKeyInput.value = apiKey;
+					advancedSettingsDiv.style.display = 'block';
+				}
             })
             .catch(error => {
                 console.error('Failed to load settings:', error);
@@ -66,3 +81,5 @@ document.addEventListener('DOMContentLoaded', function() {
         messageElement.style.color = 'red';
 	}
 });
+
+
