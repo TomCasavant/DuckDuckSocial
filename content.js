@@ -38,7 +38,7 @@ if (searchTerm) {
                             // Datetime
                             var datetime = document.createElement('p');
                             datetime.textContent = new Date(post.created_at).toLocaleString();
-                            datetime.className = 'duckducksocial-datetime'; 
+                            datetime.className = 'duckducksocial-datetime';
 
                             var postHref = document.createElement('a');
                             postHref.href = `https://${mastodonDomain}/@${post.account.acct}/${post.id}`;
@@ -46,6 +46,32 @@ if (searchTerm) {
 
                             postDiv.appendChild(username);
                             postDiv.appendChild(content);
+							if (post.media_attachments && post.media_attachments.length > 0) {
+								var mediaContainer = document.createElement('div');
+								mediaContainer.className = 'duckducksocial-media-container';
+
+								post.media_attachments.forEach(function (media) {
+									var mediaElement;
+
+									if (media.type === 'image') {
+										mediaElement = document.createElement('img');
+										mediaElement.src = media.url;
+										mediaElement.alt = media.description || 'Photo from mastodon search results. No alt text available';
+										mediaElement.className = 'duckducksocial-media-image';
+									} else if (media.type === 'video' || media.type === 'gifv') {
+										mediaElement = document.createElement('video');
+										mediaElement.src = media.url;
+										mediaElement.controls = true;
+										mediaElement.className = 'duckducksocial-media-video';
+									}
+
+									if (mediaElement) {
+										mediaContainer.appendChild(mediaElement);
+									}
+								});
+
+								postDiv.appendChild(mediaContainer);
+							}
                             postDiv.appendChild(datetime);
 
                             div.appendChild(postHref);
