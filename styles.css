@@ -36,12 +36,14 @@
   border: 1px solid var(--post-border-light);
   border-radius: 8px;
   box-shadow: 0 2px 8px var(--shadow-light);
-  height: 15em;
-  width: 12.5em;
+  height: 15em; /* Fixed height */
+  width: 12.5em; /* Fixed width */
   background-color: var(--post-background-light);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Distribute elements evenly */
+  padding: 5px; /* Add padding around elements */
   overflow: hidden;
 }
 
@@ -52,29 +54,55 @@
 
 .duckducksocial-username {
   font-weight: bold;
-  margin: 3px;
+  margin: 0;
   color: var(--text-color-light);
   font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .duckducksocial-content {
-  margin: 0 10px 30px;
-  font-size: 14px;
+  font-size: 12px; /* Smaller font size */
   color: var(--content-text-color-light);
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  margin: 3px 0; /* Margin to separate from other elements */
+  flex-grow: 1; /* Allow it to take available space */
 }
 
 .duckducksocial-datetime {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  font-size: 12px;
+  font-size: 10px; /* Smaller font size */
   color: var(--datetime-text-color-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  align-self: flex-end; /* Align to the bottom */
 }
+
+.duckducksocial-media-container {
+  width: 100%;
+  max-height: 6em; /* Limit the height of media */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0; /* Prevent shrinking */
+  margin: 5px 0; /* Margin to separate from other elements */
+}
+
+.duckducksocial-media-image,
+.duckducksocial-media-video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  display: block;
+}
+
 
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
