@@ -20,6 +20,15 @@
         .advanced-settings {
             display: none;
         }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+
     </style>
 </head>
 <body>
@@ -35,6 +44,16 @@
         <div class="advanced-settings">
             <label for="apiKey">API Key:</label>
             <input type="password" id="apiKey" name="apiKey" placeholder="Enter your API key">
+
+            <!-- setting for list of words that will be dropped before performing search -->
+            <label for="dropWords">Words to drop:</label>
+            <input type="text" id="dropWords" name="dropWords" placeholder="Enter words separated by commas">
+
+            <label for="dateConfig">Date Configuration:</label>
+            <select id="dateConfig" name="dateConfig">
+                <option value="absolute">Absolute</option>
+                <option value="relative">Relative</option>
+            </select>
         </div>
 		
         <button type="submit">Save Settings</button>
