@@ -1,8 +1,10 @@
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'searchMastodon') {
+        console.log('Searching Mastodon for:', message.searchTerm);
         // Load saved settings from browser.storage.local
-       browser.storage.local.get(['client_id', 'client_secret', 'access_token', 'apiKey', 'domain', 'numPosts'])
-            .then(({ client_id, client_secret, access_token, apiKey, domain, numPosts = 5 }) => {
+       browser.storage.local.get(['client_id', 'client_secret', 'access_token', 'apiKey', 'domain', 'dateType', 'dropWords', 'numPosts'])
+            .then(({ client_id, client_secret, access_token, apiKey, domain, dateType, dropWords, numPosts = 5 }) => {
+                console.log('Loaded settings:', client_id, client_secret, access_token, apiKey, domain, dateType, dropWords, numPosts);
                 if ((!access_token && !apiKey) || !domain) {
                     sendResponse({ success: false, error: 'Missing access token, API key, or domain.' });
                     return;
@@ -35,9 +37,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         return true; 
     } else if (message.action === 'getSettings') {
-        browser.storage.local.get(['domain', 'numPosts'])
-            .then(({ domain, numPosts = 5 }) => {
-                sendResponse({ domain, numPosts });
+        browser.storage.local.get(['domain', 'numPosts', 'dropWords', 'dateType'])
+            .then(({ domain, numPosts = 5, dropWords, dateType }) => {
+                sendResponse({ domain, numPosts, dropWords, dateType });
             })
             .catch(error => {
                 sendResponse({ success: false, error: 'Failed to retrieve settings.' });
@@ -50,7 +52,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         // Register the app and start the OAuth flow
         registerApp(domain).then(appRegistration => {
-            console.log('App registration successful:', appRegistration);
+            console.log('App registration successful');
 			appRegistrate = appRegistration;
             return launchOAuthFlow(appRegistration, domain);
         }).then(redirectUrl => {
@@ -146,9 +148,8 @@ async function exchangeCodeForToken(code, domain, appRegistration) {
 // Validates the redirect URL
 async function validate(redirectUrl, domain, appRegistration) {
     try {
-        console.log('Redirect URL:', redirectUrl);
-
         if (redirectUrl) {
+            console.log('Generated Redirect URL');
             const code = new URL(redirectUrl).searchParams.get('code');
 
             if (code) {

@@ -20,6 +20,21 @@
         .advanced-settings {
             display: none;
         }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dateConfigGroup {
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -30,11 +45,22 @@
 
         <label for="numPosts">Number of posts to display:</label>
         <input type="number" id="numPosts" name="numPosts" min="1" value="5" />
-		
+
+        <div class="dateConfigGroup">
+            <label for="dateConfig">Date Configuration:</label>
+            <select id="dateConfig" name="dateConfig">
+                    <option value="absolute">Absolute</option>
+                    <option value="relative">Relative</option>
+            </select>
+        </div>
 
         <div class="advanced-settings">
             <label for="apiKey">API Key:</label>
             <input type="password" id="apiKey" name="apiKey" placeholder="Enter your API key">
+
+            <!-- setting for list of words that will be dropped before performing search -->
+            <label for="dropWords">Words to drop:</label>
+            <input type="text" id="dropWords" name="dropWords" placeholder="Enter words separated by commas">
         </div>
 		
         <button type="submit">Save Settings</button>

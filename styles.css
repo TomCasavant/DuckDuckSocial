@@ -36,12 +36,12 @@
   border-radius: 8px;
   box-shadow: 0 2px 8px var(--shadow-light);
   height: 15em;
-  width: 12.5em; 
+  width: 12.5em;
   background-color: var(--post-background-light);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 5px;
   overflow: hidden;
 }
@@ -49,6 +49,11 @@
 .duckducksocial-post:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 12px rgba(150, 150, 150, 0.5);
+}
+
+.duckducksocial-username-wrapper {
+  position: relative;
+  height: 20px;
 }
 
 .duckducksocial-username {
@@ -59,6 +64,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 15px;
 }
 
 .duckducksocial-content {
@@ -68,9 +74,16 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 3; /* Limits the content to 3 lines when there's media */
   margin: 3px 0;
-  flex-grow: 1; 
+  flex-grow: 1; /* Ensures the content grows to fill available space */
+  max-height: 4.5em; /* Adjust this to prevent cut-off */
+}
+
+.duckducksocial-post:not(.has-media) .duckducksocial-content {
+  -webkit-line-clamp: 10; /* Remove the line clamp if there's no media */
+  max-height: none;
+  flex-grow: 0.3;
 }
 
 .duckducksocial-datetime {
@@ -79,8 +92,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
   margin: 0;
-  align-self: flex-end;
 }
 
 .duckducksocial-media-container {
@@ -91,7 +106,7 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  margin: 5px 0;
+  margin: 18px 0;
 }
 
 .duckducksocial-media-image,
@@ -102,10 +117,17 @@
   display: block;
 }
 
+.duckducksocial-hr {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  height: 0.5px;
+}
 
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
-
   .duckducksocial-results {
     border: 1px solid var(--border-color-dark);
     background-color: var(--background-color-dark);
@@ -128,6 +150,10 @@
   .duckducksocial-datetime {
     color: var(--datetime-text-color-dark);
   }
+
+  .duckducksocial-hr {
+    background-color: #555;
+  }
 }
 
 /* Remove underline from all links and nested elements */
@@ -135,7 +161,7 @@
   text-decoration: none;
 }
 
-.content a {
+.duckducksocial-content a {
   color: lightblue;
   text-decoration-line: underline;
 }

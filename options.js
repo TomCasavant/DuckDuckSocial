@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	const toggleButton = document.getElementById('toggleAdvancedSettings');
 	const advancedSettings = document.querySelector('.advanced-settings');
 
+    // Advanced settings
+    dropWordsInput = document.getElementById('dropWords');
+
+    const dateConfig = document.getElementById('dateConfig');
+
+
     // Load saved settings
     loadSettings();
 
@@ -29,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        console.log('Connecting to Mastodon: ', domain);
         browser.runtime.sendMessage({
             action: 'authorize',
             domain: domain
@@ -48,11 +55,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const domain = domainInput.value;
         const numPosts = numPostsInput.value;
         const apiKey = apiKeyInput.value;
+        const dropWords = dropWordsInput.value;
 
+        const dateType = dateConfig.value;
         browser.storage.local.set({
             domain: domain,
             numPosts: numPosts,
-            apiKey: apiKey  // Save the API key as well
+            apiKey: apiKey,
+            dropWords: dropWords,
+            dateType: dateType
         }).then(() => {
             updateMessage('Settings saved successfully!');
         }).catch(error => {
@@ -62,14 +73,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 	
     function loadSettings() {
-        browser.storage.local.get(['domain', 'numPosts', 'apiKey'])
-            .then(({ domain, numPosts = 5, apiKey }) => {
+        browser.storage.local.get(['domain', 'numPosts', 'apiKey', 'dropWords', 'dateType'])
+            .then(({ domain, numPosts = 5, apiKey, dropWords, dateType }) => {
                 if (domain) domainInput.value = domain;
                 if (numPosts) numPostsInput.value = numPosts;
                 if (apiKey) {
 					apiKeyInput.value = apiKey;
 					advancedSettingsDiv.style.display = 'block';
 				}
+				if (dropWords) dropWordsInput.value = dropWords;
+			    if (dateType) dateConfig.value = dateType;
             })
             .catch(error => {
                 console.error('Failed to load settings:', error);
