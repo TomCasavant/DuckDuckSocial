@@ -28,6 +28,12 @@
             cursor: pointer;
         }
 
+        .dateConfigGroup {
+            display: flex;
+            justify-content: space-between;
+        }
+
+
 
     </style>
 </head>
@@ -39,7 +45,14 @@
 
         <label for="numPosts">Number of posts to display:</label>
         <input type="number" id="numPosts" name="numPosts" min="1" value="5" />
-		
+
+        <div class="dateConfigGroup">
+            <label for="dateConfig">Date Configuration:</label>
+            <select id="dateConfig" name="dateConfig">
+                    <option value="absolute">Absolute</option>
+                    <option value="relative">Relative</option>
+            </select>
+        </div>
 
         <div class="advanced-settings">
             <label for="apiKey">API Key:</label>
@@ -48,12 +61,6 @@
             <!-- setting for list of words that will be dropped before performing search -->
             <label for="dropWords">Words to drop:</label>
             <input type="text" id="dropWords" name="dropWords" placeholder="Enter words separated by commas">
-
-            <label for="dateConfig">Date Configuration:</label>
-            <select id="dateConfig" name="dateConfig">
-                <option value="absolute">Absolute</option>
-                <option value="relative">Relative</option>
-            </select>
         </div>
 		
         <button type="submit">Save Settings</button>
